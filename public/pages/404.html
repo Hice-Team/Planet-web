@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페이지를 찾을 수 없습니다 | PLANET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .stars {
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,154,0,0.15) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 overflow-hidden">
+
+    <div class="stars min-h-screen flex items-center justify-center px-6">
+        <div class="max-w-md w-full text-center">
+            
+            <!-- 404 Visual -->
+            <div class="relative mb-12">
+                <h1 class="text-[150px] font-black text-slate-200 leading-none select-none">404</h1>
+            </div>
+
+            <!-- Message -->
+            <div class="space-y-4 mb-10">
+                <h2 class="text-3xl font-bold text-slate-800 tracking-tight">길을 잃으셨나요?</h2>
+                <p class="text-slate-500 leading-relaxed font-medium">
+                    찾으시는 페이지가 우주 너머로 사라진 것 같습니다.<br>
+                    입력하신 주소가 정확한지 다시 한번 확인해 주세요.
+                </p>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col gap-3">
+                <a href="/" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-lg hover:bg-black transition-all active:scale-[0.98] shadow-xl shadow-slate-200">
+                    홈으로 돌아가기
+                </a>
+                <button onclick="history.back()" class="w-full bg-white text-slate-500 py-4 rounded-2xl font-bold text-lg border border-slate-200 hover:bg-slate-50 transition-all active:scale-[0.98]">
+                    이전 페이지로
+                </button>
+            </div>
+
+            <!-- Logo Footer -->
+            <div class="mt-16 flex items-center justify-center gap-2 opacity-40">
+                <div class="w-6 h-6 rounded-md flex items-center justify-center">
+                    <img src="/images/favicon.ico" alt="Planet Logo" class="w-6 h-6">
+                </div>
+                <span class="font-bold text-sm tracking-tight text-slate-800 uppercase">Planet</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planet - 당신의 리듬으로 돌아가다</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+        :root {
+            --brand-orange: #FF9A00;
+            --brand-light: #FFC272;
+            --bg-white: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-white);
+            color: #1e293b;
+            /* 어두운 텍스트 */
+            scroll-behavior: smooth;
+        }
+
+        /* 밝은 히어로 배경 */
+        .hero-gradient {
+            background: radial-gradient(circle at 50% -20%, #fff7ed 0%, #f8fafc 60%);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* 화이트 테마 카드 스타일 */
+        .feature-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--brand-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(255, 154, 0, 0.1);
+        }
+
+        /* 텍스트 그라디언트: 화이트 배경에 맞게 명도 조절 */
+        .text-gradient {
+            background: linear-gradient(to right, #1e293b, #FF9A00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 챌린지 섹션: 어두운 배경 대신 연한 주황빛 배경 */
+        .challenge-gradient {
+            background: radial-gradient(circle at center, #fff7ed 0%, #f8fafc 70%);
+        }
+
+        /* 기본 상태: 최상단 전면 너비 */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* 스크롤 시: 즉각적으로 알약 형태로 변경 */
+        .nav-scrolled {
+            top: 15px !important;
+            width: 90% !important;
+            max-width: 1000px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            border-radius: 20px !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        /* 버튼 로딩 스피너 */
+        .btn-with-spinner {
+            position: relative;
+            overflow: visible;
+        }
+
+        .btn-spinner {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-top-color: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            display: none;
+            box-shadow: 0 0 0 0 rgba(255, 154, 0, 0.3);
+        }
+
+        .btn-loading .btn-spinner {
+            display: block;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="main-nav" class="fixed top-0 w-full z-[100] glass-nav">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center" id="nav-container">
+            <div onclick="window.location.href='/'"
+                class="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity">
+                <div class="w-8 h-8 bg-[#fff] rounded-lg flex items-center justify-center">
+                    <!-- <i class="fas fa-globe-asia text-white text-sm"></i> -->
+                    <img src="/images/favicon.ico" alt="Planet Logo" class="w-8 h-8">
+                </div>
+                <span class="font-bold text-lg tracking-tight text-slate-800">PLANET</span>
+            </div>
+
+            <div class="hidden md:flex gap-10 text-[13px] font-bold text-slate-500 items-center">
+                <a href="#vision" class="hover:text-[#FF9A00]">Vision</a>
+                <a href="#Features" class="hover:text-[#FF9A00]">Features</a>
+                <a href="#pricing" class="hover:text-[#FF9A00]">Membership</a>
+
+                <div class="w-[1px] h-3 bg-slate-300"></div>
+
+                <a href="javascript:void(0)" onclick="alert('채용 및 비즈니스 페이지는 현재 준비 중입니다. 곧 찾아뵙겠습니다!')"
+                    class="group flex items-center gap-1.5 text-slate-800 hover:text-[#FF9A00] transition-all cursor-pointer">
+                    <span>Business</span>
+                    <i class="fas fa-external-link-alt text-[10px] text-slate-400 group-hover:text-[#FF9A00]"></i>
+                </a>
+            </div>
+
+            <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
+                class="bg-slate-900 text-white px-5 py-2 rounded-lg text-[12px] font-bold hover:bg-[#FF9A00] transition-colors active:scale-95">
+                사전예약
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero-gradient min-h-screen pt-32 pb-20 px-6 flex flex-col items-center justify-center text-center">
+        <div
+            class="inline-block px-4 py-1.5 mb-6 border border-[#FF9A00]/30 rounded-full bg-[#FF9A00]/5 text-[#FF9A00] text-xs font-bold tracking-widest">
+            COMING SOON
+        </div>
+        <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tight text-slate-800">
+            스마트폰을 내려놓고<br>
+            <span class="text-gradient">당신의 리듬을 찾으세요.</span>
+        </h1>
+        <p class="max-w-2xl text-slate-500 text-lg md:text-xl mb-12 leading-relaxed font-medium">
+            Planet은 단순한 앱 차단 도구가 아닙니다. <br class="hidden md:block">
+            당신의 절제된 시간을 우주의 생명력으로 치환하여, 삶의 균형을 되찾아주는 웰니스 플랫폼입니다.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
+                class="bg-[#FF9A00] text-white px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-xl shadow-orange-100 active:scale-95">
+                지금 사전예약 하기
+            </button>
+
+            <button onclick="document.getElementById('Features').scrollIntoView({ behavior: 'smooth' })"
+                class="bg-white border border-slate-200 text-slate-600 px-10 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-colors active:scale-95">
+                기능 더 알아보기
+            </button>
+        </div>
+    </section>
+
+    <section id="vision" class="py-32 px-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-20 items-center">
+            <div class="scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 leading-snug text-slate-800">
+                    우리가 지향하는<br>
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF9A00] to-[#FFC272]">웰니스(Wellness)</span>의
+                    가치
+                </h2>
+
+                <div class="space-y-8">
+                    <div class="flex gap-5 items-center">
+                        <div
+                            class="w-14 h-14 shrink-0 bg-[#FF9A00]/10 rounded-2xl flex items-center justify-center text-[#EA580C] shadow-sm shadow-[#FF9A00]/5">
+                            <i class="fas fa-heart text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1 text-slate-800">신체적 웰니스</h4>
+                            <p class="text-slate-500 leading-relaxed text-sm">규칙적인 디지털 디톡스를 통해 수면의 질을 높이고 무너진 신체 리듬을
+                                회복합니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-5 items-center">
+                        <div
+                            class="w-14 h-14 shrink-0 bg-[#FFC272]/20 rounded-2xl flex items-center justify-center text-[#D97706] shadow-sm shadow-[#FFC272]/5">
+                            <i class="fas fa-brain text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1 text-slate-800">정신적 웰니스</h4>
+                            <p class="text-slate-500 leading-relaxed text-sm">스마트폰 중독으로 인한 도파민 과부하를 줄이고, 명상과 성찰을 통해 내면의
+                                안정을 찾습니다.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-5 items-center">
+                        <div
+                            class="w-14 h-14 shrink-0 bg-[#FF9A00]/10 rounded-2xl flex items-center justify-center text-[#EA580C] shadow-sm shadow-[#FF9A00]/5">
+                            <i class="fas fa-briefcase text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-1 text-slate-800">직업적 웰니스</h4>
+                            <p class="text-slate-500 leading-relaxed text-sm">일과 삶의 조화로운 통합을 돕는 플래너 시스템으로 업무 몰입도와 성취감을
+                                극대화합니다.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scroll-reveal relative">
+                <div
+                    class="aspect-square bg-white rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-200/50 flex items-center justify-center overflow-hidden">
+                    <div class="absolute w-64 h-64 bg-[#FF9A00]/5 rounded-full blur-3xl"></div>
+                    <i class="fas fa-balance-scale text-[#FF9A00] text-9xl opacity-100 relative z-10"></i>
+                </div>
+                <div
+                    class="absolute -bottom-6 -left-6 bg-gradient-to-br from-[#FF9A00] to-[#FFC272] p-6 rounded-2xl shadow-xl shadow-orange-200 hidden md:block">
+                    <p class="text-white font-black text-2xl tracking-tighter">"건강한 디지털 삶"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-[#fff7ed]/30 overflow-hidden" id="Features">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+
+                <div class="order-2 md:order-1 relative scroll-reveal">
+                    <div class="absolute inset-0 bg-[#FF9A00]/10 blur-[120px] rounded-full"></div>
+
+                    <div class="relative">
+                        <div
+                            class="bg-white/90 backdrop-blur-md border border-slate-100 p-6 rounded-[28px] shadow-xl w-4/5 mb-[-40px] relative z-10 transform -rotate-3 transition-hover hover:rotate-0 duration-500">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="font-black text-slate-800 text-sm">Today's Planner</h4>
+                                <span class="text-[10px] text-slate-400 font-bold uppercase">Feb 08, 2026</span>
+                            </div>
+                            <ul class="space-y-3">
+                                <li
+                                    class="flex items-center gap-3 p-3 bg-orange-50/50 rounded-xl border border-orange-100/50">
+                                    <div
+                                        class="w-5 h-5 rounded-md border-2 border-[#FF9A00] flex items-center justify-center">
+                                        <i class="fas fa-check text-[10px] text-[#FF9A00]"></i>
+                                    </div>
+                                    <span class="text-xs font-bold text-slate-700">기획안 최종 검토하기</span>
+                                </li>
+                                <li class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-100">
+                                    <div class="w-5 h-5 rounded-md border-2 border-slate-200"></div>
+                                    <span class="text-xs text-slate-500">포트폴리오 디자인 수정</span>
+                                </li>
+                                <li class="flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-100">
+                                    <div class="w-5 h-5 rounded-md border-2 border-slate-200"></div>
+                                    <span class="text-xs text-slate-500">30분 독서 및 기록</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div
+                            class="bg-slate-900 p-8 rounded-[40px] shadow-2xl w-full relative z-20 transform translate-x-12 translate-y-4 border border-white/10">
+                            <div class="text-center">
+                                <div
+                                    class="inline-block px-3 py-1 rounded-full bg-[#FF9A00]/20 text-[#FF9A00] text-[10px] font-black mb-4 uppercase tracking-widest">
+                                    Focus Timer
+                                </div>
+                                <h3 class="text-4xl font-light text-white mb-6 tracking-tighter">01:30:<span
+                                        class="text-[#FF9A00] font-bold">00</span></h3>
+
+                                <div class="relative h-1 w-full bg-white/10 rounded-full mb-8">
+                                    <div class="absolute inset-y-0 left-0 w-3/4 bg-[#FF9A00] rounded-full"></div>
+                                    <div
+                                        class="absolute top-1/2 left-3/4 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-lg border-4 border-[#FF9A00]">
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-around items-center">
+                                    <div class="text-center">
+                                        <p class="text-[9px] text-white/40 uppercase font-bold mb-1">Concentration</p>
+                                        <p class="text-xs text-white font-bold italic">Deep Focus</p>
+                                    </div>
+                                    <div class="w-px h-8 bg-white/10"></div>
+                                    <div class="text-center">
+                                        <p class="text-[9px] text-white/40 uppercase font-bold mb-1">Planet Grade</p>
+                                        <p class="text-xs text-white font-bold">Rare Planet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2 scroll-reveal">
+                    <div
+                        class="inline-block px-4 py-2 rounded-full bg-orange-100 text-[#FF9A00] text-sm font-bold mb-6">
+                        Step into Focus
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight text-slate-800">
+                        할 일을 정하고<br><span class="text-[#FF9A00]">리듬을 맞추세요</span>
+                    </h2>
+                    <div class="text-slate-500 mb-10 leading-relaxed space-y-6">
+                        <p>
+                            행성을 생성하기 전, 오늘 당신이 이뤄내야 할 목표를 <b>투두리스트</b>에 담으세요.
+                            단순히 시간을 보내는 것이 아니라, 실질적인 성과를 낼 수 있도록 Planet의 스마트 플래너가 돕습니다.
+                        </p>
+                        <p>
+                            준비가 되었다면 <b>몰입의 깊이</b>를 설정하세요.
+                            설정한 집중 시간이 길고 깊을수록, 당신의 인내심을 양분 삼아 탄생할 행성은 더욱 거대하고 경이로운 모습을 갖추게 됩니다.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 border-t border-slate-200 pt-8">
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-1">스마트 플래너</h4>
+                            <p class="text-xs text-slate-500">집중 시간과 할 일을 유기적으로 연결합니다.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-1">가변 성장 시스템</h4>
+                            <p class="text-xs text-slate-500">목표 시간에 비례하여 행성 등급이 결정됩니다.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="scroll-reveal">
+                    <div class="inline-block px-4 py-2 rounded-full bg-orange-50 text-[#FF9A00] text-sm font-bold mb-6">
+                        Growth Logic
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight text-slate-800">
+                        체계적인 <span class="text-[#FF9A00]">7단계</span><br>성장 알고리즘
+                    </h2>
+                    <p class="text-slate-500 mb-8 leading-relaxed">
+                        Planet의 성장은 단순한 집중 타이머가 아닙니다.
+                        <br><br>
+                        방해되는 앱으로부터 멀어져 오늘 당신이 해야만 하는 일에 집중하는 순간, 여러분의 행성은 조금씩 진화합니다.
+                        <br><br>
+                        우주 먼지에서 시작해 생태계가 살아 숨 쉬는 행성으로, 당신의 인내심이 빚어낸 경이로운 진화 과정을 직접 확인하세요.
+                    </p>
+                    <div class="flex gap-4">
+                        <div class="flex items-center gap-2 text-slate-600 font-medium">
+                            <i class="fas fa-check text-[#FF9A00]"></i> 실시간 진화 반영
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-600 font-medium">
+                            <i class="fas fa-check text-[#FF9A00]"></i> 목표 시간별 가변 성장
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative scroll-reveal">
+                    <div class="absolute inset-0 bg-[#FF9A00]/10 blur-[100px] rounded-full"></div>
+
+                    <div
+                        class="relative bg-white backdrop-blur-sm border border-orange-100 rounded-[32px] overflow-hidden shadow-2xl opacity-60 blur-[1px] hover:opacity-100 hover:blur-none transition-all duration-700">
+                        <div class="p-6 md:p-8">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs md:text-sm">
+                                    <thead>
+                                        <tr class="border-b border-orange-100">
+                                            <th class="pb-3 font-bold text-slate-400 uppercase">단계</th>
+                                            <th class="pb-3 font-bold text-slate-400 uppercase">상태</th>
+                                            <th class="pb-3 font-bold text-slate-400 text-right uppercase">진척도</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-orange-50/50">
+                                        <tr>
+                                            <td class="py-4"><span
+                                                    class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full text-[10px] font-bold">01</span>
+                                            </td>
+                                            <td class="py-4 font-bold text-slate-700">우주 먼지</td>
+                                            <td class="py-4 text-right font-mono text-[#FF9A00]">0%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-4"><span
+                                                    class="bg-orange-100 text-[#FF9A00] px-2 py-0.5 rounded-full text-[10px] font-bold">03</span>
+                                            </td>
+                                            <td class="py-4 font-bold text-slate-700">성운 형성</td>
+                                            <td class="py-4 text-right font-mono text-[#FF9A00]">15%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-4"><span
+                                                    class="bg-orange-100 text-[#FF9A00] px-2 py-0.5 rounded-full text-[10px] font-bold">05</span>
+                                            </td>
+                                            <td class="py-4 font-bold text-slate-700">지각 변동</td>
+                                            <td class="py-4 text-right font-mono text-[#FF9A00]">50%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-4"><span
+                                                    class="bg-orange-100 text-[#FF9A00] px-2 py-0.5 rounded-full text-[10px] font-bold">06</span>
+                                            </td>
+                                            <td class="py-4 font-bold text-slate-700">행성 탐사</td>
+                                            <td class="py-4 text-right font-mono text-[#FF9A00]">85%</td>
+                                        </tr>
+                                        <tr class="bg-orange-50/50">
+                                            <td class="py-4"><span
+                                                    class="bg-orange-100 text-[#FF9A00] px-2 py-0.5 rounded-full text-[10px] font-bold">07</span>
+                                            </td>
+                                            <td class="py-4 font-bold text-slate-900">테라포밍</td>
+                                            <td class="py-4 text-right font-mono font-bold text-[#FF9A00]">90%</td>
+                                        </tr>
+                                        <tr class="bg-orange-50/50">
+                                            <td class="py-4"><span
+                                                    class="bg-[#FF9A00] text-white px-2 py-0.5 rounded-full text-[10px] font-bold">FINAL</span>
+                                            </td>
+                                            <td class="py-4 font-bold text-slate-900">에너지 추출</td>
+                                            <td class="py-4 text-right font-mono font-bold text-[#FF9A00]">100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-[#1A1C1E] text-white overflow-hidden border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-6">
+
+                <div
+                    class="group p-8 rounded-[32px] bg-gradient-to-b from-white/5 to-transparent border border-white/10 hover:border-[#00BFA5]/50 transition-all duration-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-[#00BFA5]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-volume-up text-[#00BFA5]"></i>
+                        </div>
+                        <h4 class="text-lg font-bold">진짜 우주에 있는 것 같은, 백색소음</h4>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        실제 우주 소리를 재해석한 낮은 데시벨의 소음이 뇌파를 안정시키고 즉각적인 몰입 상태를 유도합니다.
+                    </p>
+                </div>
+
+                <div
+                    class="group p-8 rounded-[32px] bg-gradient-to-b from-white/5 to-transparent border border-white/10 hover:border-[#FF4B2B]/50 transition-all duration-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-[#FF4B2B]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-ban text-[#FF4B2B]"></i>
+                        </div>
+                        <h4 class="text-lg font-bold">강력한 집중 방해앱 차단</h4>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        집중 중 SNS나 게임 접속 시 원천 차단하여 몰입의 흐름을 지킵니다.
+                    </p>
+                </div>
+
+                <div
+                    class="group p-8 rounded-[32px] bg-gradient-to-b from-white/5 to-transparent border border-white/10 hover:border-[#FF9A00]/50 transition-all duration-500">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-[#FF9A00]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-bell text-[#FF9A00]"></i>
+                        </div>
+                        <h4 class="text-lg font-bold">다정한 넛지 알림</h4>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        "지구가 당신을 기다려요." 죄책감 대신 성취감을 자극하는 감성적인 알림으로 다시 집중하도록 합니다.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-[#F8FAFC] overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+
+                <div class="scroll-reveal">
+                    <div class="inline-block px-4 py-2 rounded-full bg-blue-50 text-blue-500 text-sm font-bold mb-6">
+                        Flexibility & Protection
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight text-slate-800">
+                        때로는 멈춰도 괜찮아요,<br>
+                        <span class="text-blue-500">안전한 휴식 시스템</span>
+                    </h2>
+
+                    <div class="text-slate-500 mb-10 leading-relaxed space-y-6">
+                        <p>
+                            몰입의 여정 중 예상치 못한 방해가 생겨도 걱정하지 마세요.
+                            <b>일시정지(냉각기)</b> 기능을 통해 행성의 온도를 유지하며 잠시 숨을 고를 수 있습니다.
+                        </p>
+                        <p>
+                            지친 하루, 쉬어가고 싶을 때는 <b>'안개 쉴드'</b>를 활성화하세요.
+                            신비로운 안개가 당신의 행성을 감싸 안아, 기록이 끊기거나 행성이 소멸되지 않도록 완벽하게 보호해 드립니다.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm">
+                            <i class="fas fa-snowflake text-blue-400 text-xl mb-3"></i>
+                            <h4 class="font-bold text-slate-800 mb-1 text-sm">냉각기 작동</h4>
+                            <p class="text-xs text-slate-500">성장 일시 중단 및 온도 유지</p>
+                        </div>
+                        <div class="p-6 rounded-3xl bg-white border border-slate-100 shadow-sm">
+                            <i class="fas fa-cloud text-slate-400 text-xl mb-3"></i>
+                            <h4 class="font-bold text-slate-800 mb-1 text-sm">안개 쉴드</h4>
+                            <p class="text-xs text-slate-500">연속 집중 기록 보호 아이템</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative scroll-reveal">
+                    <div class="absolute inset-0 bg-blue-400/10 blur-[100px] rounded-full"></div>
+
+                    <div class="relative aspect-square flex items-center justify-center">
+                        <div
+                            class="relative w-64 h-64 rounded-full bg-gradient-to-tr from-blue-100 to-white shadow-inner flex items-center justify-center overflow-hidden border-4 border-white">
+                            <i class="fas fa-globe-americas text-[120px] text-blue-200 opacity-50"></i>
+
+                            <div class="absolute inset-0 bg-white/40 backdrop-blur-md animate-pulse"></div>
+
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div
+                                    class="bg-blue-500 text-white px-4 py-2 rounded-full text-xs font-black tracking-widest flex items-center gap-2 shadow-lg">
+                                    <span class="relative flex h-2 w-2">
+                                        <span
+                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-100 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                    </span>
+                                    COOLING MODE
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="absolute top-10 right-0 bg-white p-5 rounded-2xl shadow-2xl border border-blue-50 transform rotate-6 scale-90 md:scale-100">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center">
+                                    <i class="fas fa-shield-alt text-white text-xs"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] text-slate-400 font-bold">ITEM ACTIVE</p>
+                                    <p class="text-xs font-black text-slate-800 tracking-tight">안개 쉴드 사용 중</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="absolute bottom-10 left-0 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl transform -rotate-3 scale-90 md:scale-100">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-pause-circle text-blue-400"></i>
+                                <span class="text-xs font-bold">현재 일시정지 가능 시간 : 15:00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="challenge" class="py-32 bg-[#F8FAFC] overflow-hidden border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+
+                <div class="scroll-reveal">
+                    <div class="relative w-full max-w-sm mx-auto">
+                        <div class="absolute inset-0 bg-slate-900/10 blur-[100px] rounded-full animate-pulse"></div>
+
+                        <div
+                            class="relative bg-white border border-slate-200 rounded-[48px] p-10 shadow-2xl overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-[#FF4B2B] to-[#FF9A00]">
+                            </div>
+
+                            <div class="text-center">
+                                <div class="relative inline-block mb-6">
+                                    <i
+                                        class="fas fa-dot-circle text-5xl text-[#FF4B2B] animate-ping absolute inset-0 opacity-20"></i>
+                                    <i class="fas fa-radiation text-5xl text-[#FF4B2B] relative z-10"></i>
+                                </div>
+
+                                <h3 class="text-2xl font-bold mb-4 text-slate-800">블랙홀 접근 경고</h3>
+                                <p class="text-slate-500 text-sm mb-8 leading-relaxed">
+                                    "집중 리듬이 무너졌습니다.<br>방치된 행성이 소멸 위기에 처했습니다."
+                                </p>
+
+                                <div class="space-y-4">
+                                    <div
+                                        class="bg-slate-50 p-4 rounded-2xl flex justify-between items-center border border-slate-100">
+                                        <span class="text-xs font-bold text-slate-400 uppercase">소멸까지 남은 시간</span>
+                                        <span class="text-[#FF4B2B] font-mono font-bold text-lg">02:14</span>
+                                    </div>
+
+                                    <button
+                                        class="w-full py-4 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-black shadow-lg shadow-slate-200 transition-all active:scale-[0.98]">
+                                        복구 키트 사용하기
+                                    </button>
+
+                                    <p class="text-[10px] text-slate-400">복구 후 '반성 노트' 작성이 필요합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="absolute -bottom-6 -right-6 bg-[#FF9A00] text-white p-4 rounded-2xl shadow-xl transform rotate-6 border-4 border-white">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-magic"></i>
+                                <span class="text-xs font-bold font-mono text-white">WHITE HOLE READY</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-reveal">
+                    <div class="inline-block px-4 py-2 rounded-full bg-red-50 text-[#FF4B2B] text-sm font-bold mb-6">
+                        Crisis Management
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight text-slate-800">
+                        위기를 기회로,<br>
+                        <span class="text-[#FF9A00]">성찰이 만드는 진화</span>
+                    </h2>
+
+                    <p class="text-slate-500 mb-10 leading-relaxed text-lg">
+                        Planet은 완벽한 성공만을 강요하지 않습니다. 때때로 집중을 놓쳤을 때 발생하는 <b>'블랙홀'</b>은 당신의 행성을 위협하지만, 동시에 자신을 돌아보고 다시 시작할
+                        수 있는 가장 고귀한 기회가 됩니다.
+                    </p>
+
+                    <div class="space-y-8">
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center shrink-0">
+                                <i class="fas fa-tools text-[#FF9A00]"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">긴급 복구 시스템</h4>
+                                <p class="text-sm text-slate-500 leading-relaxed">주의 아이콘이 뜬 행성을 성찰을 통해 다시 '테라포밍' 단계로
+                                    복구하고 수명을 연장하세요.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center shrink-0">
+                                <i class="fas fa-pen-fancy text-slate-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">성찰의 반성 노트</h4>
+                                <p class="text-sm text-slate-500 leading-relaxed">실패의 원인을 기록하고 다짐을 새기는 과정을 통해, 다음 몰입은 더욱
+                                    단단하고 깊어집니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-5">
+                            <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center shrink-0">
+                                <i class="fas fa-shield-virus text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 mb-1">화이트홀 에너지</h4>
+                                <p class="text-sm text-slate-500 leading-relaxed">스타더스트를 사용해 소멸된 행성을 원상 복구하거나 예기치 못한
+                                    실패로부터 기록을 지켜내세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-slate-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+
+                <div class="relative scroll-reveal">
+                    <div class="absolute inset-0 bg-blue-500/5 blur-[100px] rounded-full"></div>
+
+                    <div
+                        class="relative bg-slate-900 rounded-[40px] p-8 shadow-2xl border border-white/10 overflow-hidden">
+                        <div class="flex items-center gap-4 mb-8">
+                            <div
+                                class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center animate-pulse">
+                                <i class="fas fa-brain text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">AI Analysis</p>
+                                <h4 class="text-white font-bold">지능형 집중 에이전트</h4>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="p-4 rounded-2xl bg-white/5 border border-white/5">
+                                <p class="text-xs text-slate-400 mb-2">가장 집중력이 높은 시간대</p>
+                                <div class="flex items-end gap-2 h-20">
+                                    <div class="flex-1 bg-white/10 h-1/3 rounded-t-sm"></div>
+                                    <div class="flex-1 bg-white/10 h-1/2 rounded-t-sm"></div>
+                                    <div
+                                        class="flex-1 bg-blue-500 h-full rounded-t-sm shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                                    </div>
+                                    <div class="flex-1 bg-white/10 h-2/3 rounded-t-sm"></div>
+                                    <div class="flex-1 bg-white/10 h-1/4 rounded-t-sm"></div>
+                                </div>
+                                <div class="flex justify-between mt-2 text-[10px] text-slate-500 font-mono">
+                                    <span>09:00</span>
+                                    <span>14:00 (Peak)</span>
+                                    <span>21:00</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded-2xl">
+                                <p class="text-blue-100 text-xs leading-relaxed">
+                                    <i class="fas fa-quote-left mr-2 opacity-50"></i>
+                                    분석 결과, 오후 2시에 '업무' 카테고리 효율이 가장 높아요. 이 시간에 중요한 할 일을 배치해볼까요?
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-chart-line text-green-500"></i>
+                            <span class="text-xs font-bold text-slate-700">집중 효율 24% 상승</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-reveal">
+                    <div class="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-600 text-sm font-bold mb-6">
+                        Personal AI Coach
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight text-slate-800">
+                        당신의 패턴을 읽는<br><span class="text-blue-600">스마트한 가이드</span>
+                    </h2>
+                    <p class="text-slate-500 mb-10 leading-relaxed">
+                        단순한 통계를 넘어, Planet의 지능형 에이전트는 당신의 집중 습관을 깊이 있게 분석합니다.
+                        어떤 요일에 몰입이 잘 되는지, 어떤 소음 환경에서 가장 효율이 높은지 찾아내어 당신만의 최적화된 리듬을 제안합니다.
+                    </p>
+                    <div class="space-y-4">
+                        <div
+                            class="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 hover:border-blue-300 transition-colors">
+                            <i class="fas fa-magic text-blue-500"></i>
+                            <span class="text-sm font-bold text-slate-700">맞춤형 몰입 시간 제안</span>
+                        </div>
+                        <div
+                            class="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 hover:border-blue-300 transition-colors">
+                            <i class="fas fa-microphone-alt text-blue-500"></i>
+                            <span class="text-sm font-bold text-slate-700">집중 방해 요소 실시간 모니터링</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+
+                <div class="scroll-reveal">
+                    <div
+                        class="inline-block px-4 py-2 rounded-full bg-orange-100 text-[#FF9A00] text-sm font-bold mb-6">
+                        Planet Store
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight text-slate-800">
+                        노력의 가치를<br><span class="text-[#FF9A00]">스킨과 아이템</span>으로
+                    </h2>
+                    <p class="text-slate-500 mb-10 leading-relaxed">
+                        몰입을 통해 얻은 <b>포인트</b>와 <b>스타더스트</b>로 당신의 은하계를 더욱 풍요롭게 꾸며보세요.
+                        NASA의 실사 데이터를 기반으로 한 레전더리 행성 스킨부터, 위기 상황을 극복하게 해주는 강력한 특수 아이템까지 모두 스토어에 준비되어 있습니다.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-coins text-yellow-500"></i> 포인트
+                            </h4>
+                            <p class="text-xs text-slate-500">매일의 목표 달성과 습관 유지로 획득하는 기본 재화</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2">
+                                <i class="fas fa-gem text-blue-400"></i> 스타더스트
+                            </h4>
+                            <p class="text-xs text-slate-500">고급 테마와 한정판 스킨을 구매할 수 있는 프리미엄 재화</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative scroll-reveal">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100 transform translate-y-8">
+                            <div
+                                class="aspect-square rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 mb-4 shadow-inner flex items-center justify-center">
+                                <i class="fas fa-ring text-4xl text-white/50"></i>
+                            </div>
+                            <h5 class="font-bold text-slate-800 text-sm mb-1">크리스탈 행성 스킨</h5>
+                            <p class="text-[10px] text-slate-400 mb-3">Premium Skin</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-black text-blue-500"><i class="fas fa-gem mr-1"></i> 50</span>
+                                <button class="px-3 py-1 bg-slate-800 text-white text-[10px] rounded-lg">구매</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100">
+                            <div
+                                class="aspect-square rounded-2xl bg-slate-800 mb-4 flex items-center justify-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-[#FF9A00]/20 animate-pulse"></div>
+                                <i class="fas fa-medkit text-4xl text-[#FF9A00]"></i>
+                            </div>
+                            <h5 class="font-bold text-slate-800 text-sm mb-1">행성 복구 키트</h5>
+                            <p class="text-[10px] text-slate-400 mb-3">Consumable</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-black text-orange-500"><i class="fas fa-coins mr-1"></i>
+                                    70,000</span>
+                                <button
+                                    class="px-3 py-1 bg-slate-200 text-slate-400 text-[10px] rounded-lg cursor-not-allowed">보유중</button>
+                            </div>
+                        </div>
+
+                        <div
+                            class="col-span-2 bg-slate-900 rounded-3xl p-6 border border-white/10 mt-4 relative overflow-hidden">
+                            <div class="absolute right-0 top-0 w-32 h-32 bg-blue-500/20 blur-3xl"></div>
+                            <div class="flex items-center gap-6">
+                                <div
+                                    class="w-20 h-20 rounded-xl bg-gradient-to-tr from-blue-900 to-slate-900 border border-white/20 flex items-center justify-center">
+                                    <i class="fas fa-cloud-moon text-blue-300 text-2xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-bold text-white text-sm mb-1">오로라 은하계 테마</h5>
+                                    <p class="text-[10px] text-slate-400 mb-3">Legendary Background</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs font-black text-blue-400">구독 멤버십 전용</span>
+                                        <i class="fas fa-chevron-right text-slate-600 text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-32 bg-slate-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <div class="inline-block px-4 py-2 rounded-full bg-slate-200 text-slate-600 text-sm font-bold mb-6">
+                    Membership Plan
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-slate-800">나에게 맞는 <span class="text-[#FF9A00]">우주
+                        여행법</span></h2>
+                <p class="text-slate-500 text-lg leading-relaxed">
+                    모든 데이터는 당신의 기기에 안전하게 로컬 저장됩니다.<br class="hidden md:block">
+                    더 깊은 몰입과 특별한 행성을 원하는 탐험가를 위한 추가 옵션을 확인하세요.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-stretch">
+
+                <div
+                    class="bg-white rounded-[40px] p-8 border border-slate-200 shadow-sm flex flex-col hover:shadow-lg transition-all">
+                    <div class="mb-8">
+                        <h4 class="text-xl font-bold text-slate-800 mb-2">Basic</h4>
+                        <p class="text-slate-400 text-xs">핵심 성장 시스템 중심</p>
+                        <div class="mt-6 font-mono">
+                            <span class="text-3xl font-black text-slate-800">FREE</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-10 flex-grow text-sm">
+                        <li class="flex items-start gap-3 text-slate-600">
+                            <i class="fas fa-check text-slate-300 mt-1"></i>
+                            <span>기본 행성 성장 로직 및 일기장</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-600">
+                            <i class="fas fa-check text-slate-300 mt-1"></i>
+                            <span>기본 앰비언트 사운드 3종</span>
+                        </li>
+                        <li class="flex flex-col gap-3">
+                            <div class="flex items-start gap-3 text-slate-400 italic">
+                                <i class="fas fa-info-circle text-slate-200 mt-1"></i>
+                                <span>하단 배너 광고 포함</span>
+                            </div>
+
+                            <div class="p-4 bg-slate-50/80 rounded-2xl border border-slate-100 shadow-sm">
+                                <div class="flex items-center gap-2 mb-1.5">
+                                    <span
+                                        class="px-1.5 py-0.5 bg-slate-200 text-slate-500 text-[9px] font-bold rounded uppercase tracking-wider">HICE
+                                    </span>
+                                    <span class="text-[11px] font-bold text-slate-600">최소한의 광고 원칙</span>
+                                </div>
+                                <p class="text-[11px] text-slate-400 leading-relaxed">
+                                    Planet은 광고 배너를 앱 사용에 불편함이 없는 위치에 최소한으로 배치합니다. 사용자의 몰입을 방해하지 않는 쾌적한 환경을 약속합니다.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                    class="bg-white rounded-[40px] p-8 border-2 border-slate-800 shadow-xl flex flex-col relative transform md:-translate-y-4">
+                    <div
+                        class="absolute -top-4 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-4 py-1 rounded-full text-[10px] font-bold tracking-widest">
+                        30 DAYS PASS
+                    </div>
+                    <div class="mb-8">
+                        <h4 class="text-xl font-bold text-slate-800 mb-2">은하 통행권</h4>
+                        <p class="text-slate-400 text-xs">부담 없는 한 달간의 프리미엄 체험</p>
+                        <div class="mt-6 font-mono">
+                            <span class="text-3xl font-black text-slate-800">₩3,900</span>
+                            <span class="text-slate-400 text-xs">/ 30일</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-10 flex-grow text-sm">
+                        <li class="flex items-start gap-3 text-slate-600 font-bold">
+                            <i class="fas fa-check text-slate-800 mt-1"></i>
+                            <span>30일간 모든 광고 완전 제거</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-600">
+                            <i class="fas fa-check text-slate-800 mt-1"></i>
+                            <span>레전더리 스킨 & 테마 30일 대여</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-600">
+                            <i class="fas fa-check text-slate-800 mt-1"></i>
+                            <span>AI 기본 분석 리포트 잠금 해제</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-600">
+                            <i class="fas fa-bolt text-amber-500 mt-1"></i>
+                            <span>행성 성장 속도 및 포인트 획득 가속</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-600">
+                            <i class="fas fa-shield-alt text-blue-500 mt-1"></i>
+                            <span>긴급 행성 보호용 '안개 쉴드' 팩 지급</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-600">
+                            <i class="fas fa-check text-slate-800 mt-1"></i>
+                            <span>3,000 스타더스트 포인트 지급</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                    class="bg-gradient-to-b from-[#1E2022] to-black rounded-[40px] p-8 shadow-2xl flex flex-col border border-white/10">
+                    <div class="mb-8 text-white">
+                        <h4 class="text-xl font-bold mb-2">Planet+</h4>
+                        <p class="text-slate-400 text-xs">은하계의 진정한 마스터</p>
+                        <div class="mt-6 font-mono">
+                            <span class="text-3xl font-black text-[#FF9A00]">₩5,900</span>
+                            <span class="text-slate-500 text-xs">/ 월</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-10 flex-grow text-sm">
+                        <li class="flex items-start gap-3 text-slate-200 font-bold">
+                            <i class="fas fa-infinity text-[#FF9A00] mt-1"></i>
+                            <span>광고 영구 제거 (구독 유지 시)</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-200">
+                            <i class="fas fa-gem text-[#FF9A00] mt-1"></i>
+                            <span>레전더리 스킨 & 오로라 테마 영구 소장</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-200">
+                            <i class="fas fa-brain text-[#FF9A00] mt-1"></i>
+                            <span>지능형 AI 심화 분석 및 맞춤 피드백</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-200">
+                            <i class="fas fa-bolt text-amber-500 mt-1"></i>
+                            <span>행성 성장 속도 및 포인트 획득 가속</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-200">
+                            <i class="fas fa-sliders-h text-[#FF9A00] mt-1"></i>
+                            <span>일회용 아이템 세트 매달 지급</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-200">
+                            <i class="fas fa-layer-group text-[#FF9A00] mt-1"></i>
+                            <span>멀티 탐사 슬롯 제공</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-200">
+                            <i class="fas fa-coins text-[#FF9A00] mt-1"></i>
+                            <span>매달 10,000 스타더스트 & 특수 아이템</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-32 px-6">
+        <div
+            class="max-w-6xl mx-auto bg-gradient-to-br from-[#FF9A00] to-[#FFC272] rounded-[48px] p-8 md:p-20 text-center text-white shadow-2xl shadow-orange-200 relative overflow-hidden">
+
+            <div
+                class="absolute top-0 left-0 -translate-y-1/2 -translate-x-1/2 w-80 h-80 bg-white/10 rounded-full blur-3xl">
+            </div>
+            <div
+                class="absolute bottom-0 right-0 translate-y-1/2 translate-x-1/2 w-80 h-80 bg-black/5 rounded-full blur-3xl">
+            </div>
+
+            <div class="relative z-10">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-black/10 backdrop-blur-md rounded-full text-sm font-bold mb-8 border border-white/20">
+                    <span class="flex h-2 w-2 rounded-full bg-white animate-pulse"></span>
+                    LIMITED PRE-REGISTER
+                </div>
+
+                <h2 class="text-4xl md:text-6xl font-black mb-6 tracking-tighter leading-[1.1]">
+                    초기 생태계를 구축할<br>
+                    <span class="text-black/80">Planet 파운더스</span> 모집
+                </h2>
+
+                <p class="text-lg md:text-xl opacity-90 mb-16 font-medium">
+                    지금 예약하고 앱 수익 지분과 한정판 키트의 주인공이 되세요.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-16 max-w-5xl mx-auto text-left">
+                    <div class="relative group">
+                        <div
+                            class="absolute -top-4 left-6 bg-black text-white text-xs font-black px-3 py-1 rounded-full z-20 shadow-xl">
+                            FIRST 100 ONLY</div>
+                        <div
+                            class="bg-white/20 backdrop-blur-xl p-8 rounded-[40px] border-2 border-white shadow-xl h-full transition-transform hover:-translate-y-2">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="text-5xl">📦</div>
+                                <div>
+                                    <h4 class="font-black text-2xl text-black/90">Physical Kit</h4>
+                                    <p class="text-sm font-bold text-black/60 italic">Planet Founders Kit (실물)</p>
+                                </div>
+                            </div>
+                            <ul class="space-y-3 text-black/80 font-medium">
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-black/40"></i>
+                                    파운더스 머그컵 & 키링 3종</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-black/40"></i> 전용
+                                    플래너 노트 & 볼펜</li>
+                                <li class="flex items-center gap-2"><i class="fas fa-check-circle text-black/40"></i> 실물
+                                    멤버쉽 카드 & 가죽 케이스</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 backdrop-blur-md p-8 rounded-[40px] border border-white/20 h-full">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="text-5xl">🌐</div>
+                            <div>
+                                <h4 class="font-black text-2xl">Common Rewards</h4>
+                                <p class="text-sm opacity-80 italic">수익 지분 & 디지털 키트</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3 bg-black/5 p-3 rounded-2xl border border-white/10">
+                                <span class="text-2xl">📈</span>
+                                <div>
+                                    <p class="text-sm font-black uppercase tracking-wider opacity-70">Core Benefit</p>
+                                    <p class="font-bold">앱 수익 지분 1% 증정</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 bg-black/5 p-3 rounded-2xl border border-white/10">
+                                <span class="text-2xl">✨</span>
+                                <div>
+                                    <p class="text-sm font-black uppercase tracking-wider opacity-70">Digital Founders
+                                        Kit</p>
+                                    <p class="text-xs leading-relaxed opacity-90">
+                                        [Founders] 칭호 & 테마, 디지털 멤버쉽 카드,<br>
+                                        Planet+ 6개월권, 50,000 스타더스트
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="max-w-lg mx-auto">
+                    <div class="max-w-lg mx-auto">
+                        <div
+                            class="bg-white p-2 rounded-[24px] md:rounded-full flex flex-col md:flex-row gap-2 shadow-2xl shadow-orange-900/20 mb-4">
+                            <input type="email" id="userEmail" placeholder="이메일 주소를 입력하세요"
+                                class="bg-transparent border-none outline-none px-6 py-4 flex-grow text-slate-800 placeholder:text-slate-400 font-medium">
+                            <button id="submitBtn" onclick="handleRegistration()"
+                                class="bg-[#1e293b] text-white px-8 py-4 rounded-[18px] md:rounded-full font-black text-lg hover:bg-black transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2 min-w-[180px]">
+                                <span id="btnText">지금 사전 예약하기</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-center gap-2 mb-6 text-sm font-medium text-black/70">
+                            <input type="checkbox" id="privacyAgree" class="w-4 h-4 accent-black cursor-pointer">
+                            <label for="privacyAgree" class="cursor-pointer">
+                                <a href="/privacy" class="underline underline-offset-4 hover:text-black">개인정보 이용 및
+                                    수집</a>에 동의하십니까?
+                            </label>
+                        </div>
+
+                        <div class="mt-10 py-6 border-t border-black/5 max-w-lg mx-auto">
+                        </div>
+                    </div>
+                    <div class="mt-10 py-6 border-t border-black/5 max-w-lg mx-auto">
+                        <ul class="text-[11px] md:text-xs text-black/50 font-medium space-y-2 text-left list-none">
+                            <li class="flex gap-2">
+                                <span class="shrink-0">•</span>
+                                <span>선착순 100명은 신청 이메일을 입력하신 시간 기준으로 산정됩니다.</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="shrink-0">•</span>
+                                <span>Planet 파운더스 키트는 한정 수량 제작물로, 준비된 물량 소진 시 조기 마감될 수 있습니다.</span>
+                            </li>
+                            <li class="flex gap-2">
+                                <span class="shrink-0">•</span>
+                                <span class="text-black/60">예약하신 이메일로 발송된 APK 파일을 설치 후, 예약하신 이메일로 <strong>회원가입</strong>을
+                                    하셔야만 클로즈베타 기간 정상 이용 및 파운더스
+                                    혜택 수령이 가능합니다.</span>
+                            </li>
+                            <li class="flex gap-2 italic opacity-80">
+                                <span class="shrink-0">※</span>
+                                <span>등록하신 이메일로 출시 소식과 혜택 수령 안내 메일이 발송됩니다.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 border-t border-slate-100 px-6 bg-slate-50/50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+            <div>
+                <div class="flex items-center gap-2 mb-6">
+                    <!-- <div class="w-8 h-8 bg-gradient-to-r from-[#FF9A00] to-[#FFC272] rounded-full shadow-sm"></div> -->
+                    <img src="/images/favicon.ico" alt="Planet Logo" class="w-8 h-8">
+                    <span class="font-bold text-xl tracking-tighter text-slate-800">PLANET</span>
+                </div>
+                <p class="text-slate-500 text-sm max-w-xs leading-relaxed">당신의 리듬으로 돌아가는 여정,<br>Planet이 함께합니다.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-16 text-sm">
+                <div>
+                    <h5 class="font-bold mb-6 text-slate-800">제품</h5>
+                    <ul class="space-y-4 text-slate-500">
+                        <li><a href="#contact" class="hover:text-[#FF9A00] transition-colors">사전예약</a></li>
+                        <li>
+                            <a href="https://seogo.notion.site/Planet-300389ce86f680359220d31a9916088a?source=copy_link"
+                                class="hover:text-[#FF9A00] transition-colors flex items-center gap-2">
+                                <span>기획서</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-slate-800">고객지원</h5>
+                    <ul class="space-y-4 text-slate-500">
+                        <li>
+                            <a href="mailto:hicecorp.team@gmail.com"
+                                class="hover:text-[#FF9A00] transition-colors flex items-center gap-2">
+                                <span>문의하기</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/privacy" class="hover:text-[#FF9A00] transition-colors">
+                                개인정보처리방침
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-slate-800">소셜</h5>
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/hice.tech/" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-[#FF9A00] hover:text-white hover:border-[#FF9A00] transition-all"
+                            aria-label="Instagram">
+                            <i class="fab fa-instagram text-lg"></i>
+                        </a>
+
+                        <a href="https://www.youtube.com/@seogoworkroom" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-[#FF9A00] hover:text-white hover:border-[#FF9A00] transition-all"
+                            aria-label="Youtube">
+                            <i class="fab fa-youtube text-lg"></i>
+                        </a>
+
+                        <a href="https://discord.gg/CtXh4cdc" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-[#FF9A00] hover:text-white hover:border-[#FF9A00] transition-all"
+                            aria-label="Discord">
+                            <i class="fab fa-discord text-lg"></i>
+                        </a>
+
+                        <a href="https://github.com/ksh6940" target="_blank" rel="noopener noreferrer"
+                            class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-[#FF9A00] hover:text-white hover:border-[#FF9A00] transition-all"
+                            aria-label="Github">
+                            <i class="fab fa-github text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto mt-20 pt-8 border-t border-slate-200/60 text-xs text-slate-400 flex justify-between">
+            <p>© 2026 Hice Tech. All rights reserved.</p>
+            <p class="font-medium">Planet — Get back to your rhythm</p>
+        </div>
+    </footer>
+
+    <script>
+        // 1. 스크롤 애니메이션 (Scroll Reveal)
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // 2. 네비게이션 바 상태 관리
+        const nav = document.getElementById('main-nav');
+        let scrollTimeout;
+
+        window.addEventListener('scroll', () => {
+            const isTop = window.scrollY < 50;
+
+            if (!isTop) {
+                nav.classList.add('nav-scrolled');
+                nav.classList.remove('nav-hidden');
+
+                // 스크롤 멈추면 1.5초 후 숨김
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    if (!nav.matches(':hover')) { // 마우스가 위에 없을 때만 숨김
+                        nav.classList.add('nav-hidden');
+                    }
+                }, 1500);
+            } else {
+                nav.classList.remove('nav-scrolled', 'nav-hidden');
+            }
+        });
+
+        // 3. 사전예약 등록 핸들러 (통합 및 최적화)
+        async function handleRegistration() {
+            const emailInput = document.getElementById('userEmail');
+            const checkbox = document.getElementById('privacyAgree');
+            const btn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+
+            const email = (emailInput.value || '').trim();
+
+            // [검증 1] 개인정보 동의 여부
+            if (!checkbox.checked) {
+                alert('개인정보 이용 및 수집에 동의해주세요.');
+                checkbox.focus();
+                return;
+            }
+
+            // [검증 2] 이메일 형식
+            if (!email || !email.includes('@')) {
+                alert('올바른 이메일 주소를 입력해주세요.');
+                emailInput.focus();
+                return;
+            }
+
+            // [상태 변경] 로딩 시작
+            btn.disabled = true;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            // 로딩 스피너 및 텍스트 변경
+            btnText.innerHTML = `
+            <svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            사용자 추가중..
+        `;
+
+            try {
+                const payload = {
+                    email,
+                    source: "founders_register"
+                };
+
+                console.group("🚀 API 전송 데이터 준비 완료");
+                console.log("Object:", payload);
+                console.groupEnd();
+
+                // ✅ fetch 결과를 response로 받는다
+                const response = await fetch('/api/pre-register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                // ✅ 여기서 response 사용 가능
+                if (!response.ok) {
+                    throw new Error('전송 실패');
+                }
+
+                console.log('✅ Registration Successful');
+
+                btnText.innerText = "저장 완료";
+
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                    btnText.innerText = "지금 사전 예약하기";
+                    emailInput.value = "";
+                    checkbox.checked = false;
+                }, 1500);
+
+            } catch (error) {
+                console.error('Registration Error:', error);
+                alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                btn.disabled = false;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+                btnText.innerText = "지금 사전 예약하기";
+            }
+        }
+    </script>
+</body>
+
+</html>
