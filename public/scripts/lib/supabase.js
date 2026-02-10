@@ -1,9 +1,33 @@
 // lib/supabase.js
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const ALGORITHM = 'aes-256-gcm';
+
+export function decrypt(cipherText, secretKey) {
+  const key = Buffer.isBuffer(secretKey)
+    ? secretKey
+    : Buffer.from(secretKey, 'hex');
+
+  const [ivHex, tagHex, encryptedHex] = cipherText.split(':');
+
+  const decipher = crypto.createDecipheriv(
+    ALGORITHM,
+    key,
+    Buffer.from(ivHex, 'hex')
+  );
+
+  decipher.setAuthTag(Buffer.from(tagHex, 'hex'));
+
+  let decrypted = decipher.update(encryptedHex, 'hex', 'utf8');
+  decrypted += decipher.final('utf8');
+
+  return decrypted;
+}
+
+const SUPABASE_URL = decrypt(process.env.CIPHER_SUPABASE_URL, process.env.CIPHER_KEY);
+const SUPABASE_SERVICE_ROLE_KEY = decrypt(process.env.CIPHER_SUPABASE_KEY, process.env.CIPHER_KEY);
+const SUPABASE_ANON_KEY = decrypt(process.env.CIPHER_SUPABASE_ANON_KEY, process.env.CIPHER_KEY);
 
 // ...basic checks...
 if (!SUPABASE_URL) {
