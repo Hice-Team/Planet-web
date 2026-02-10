@@ -1,0 +1,22 @@
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.stars {
+    background-image: radial-gradient(circle at 2px 2px, rgba(255, 154, 0, 0.15) 1px, transparent 0);
+    background-size: 40px 40px;
+}

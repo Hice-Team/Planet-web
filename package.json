@@ -13,11 +13,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@clerk/express": "^1.7.69",
     "@supabase/supabase-js": "^2.95.3",
+    "@tailwindcss/cli": "^4.1.18",
+    "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
     "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
     "nodemon": "^3.1.11",
-    "postgres": "^3.4.8"
+    "postgres": "^3.4.8",
+    "tailwindcss": "^4.1.18"
   }
 }

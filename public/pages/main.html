@@ -7,182 +7,94 @@
     <title>Planet - 당신의 리듬으로 돌아가다</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;700&display=swap');
-
-        :root {
-            --brand-orange: #FF9A00;
-            --brand-light: #FFC272;
-            --bg-white: #f8fafc;
-        }
-
-        body {
-            font-family: 'Inter', 'Noto Sans KR', sans-serif;
-            background-color: var(--bg-white);
-            color: #1e293b;
-            /* 어두운 텍스트 */
-            scroll-behavior: smooth;
-        }
-
-        /* 밝은 히어로 배경 */
-        .hero-gradient {
-            background: radial-gradient(circle at 50% -20%, #fff7ed 0%, #f8fafc 60%);
-        }
-
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        /* 화이트 테마 카드 스타일 */
-        .feature-card {
-            background: white;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: var(--brand-orange);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(255, 154, 0, 0.1);
-        }
-
-        /* 텍스트 그라디언트: 화이트 배경에 맞게 명도 조절 */
-        .text-gradient {
-            background: linear-gradient(to right, #1e293b, #FF9A00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-
-        .scroll-reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 챌린지 섹션: 어두운 배경 대신 연한 주황빛 배경 */
-        .challenge-gradient {
-            background: radial-gradient(circle at center, #fff7ed 0%, #f8fafc 70%);
-        }
-
-        /* 기본 상태: 최상단 전면 너비 */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        /* 스크롤 시: 즉각적으로 알약 형태로 변경 */
-        .nav-scrolled {
-            top: 15px !important;
-            width: 90% !important;
-            max-width: 1000px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            border-radius: 20px !important;
-            border: 1px solid rgba(0, 0, 0, 0.1) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
-        }
-
-        /* 버튼 로딩 스피너 */
-        .btn-with-spinner {
-            position: relative;
-            overflow: visible;
-        }
-
-        .btn-spinner {
-            position: absolute;
-            top: 6px;
-            right: 8px;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            border-top-color: rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
-            display: none;
-            box-shadow: 0 0 0 0 rgba(255, 154, 0, 0.3);
-        }
-
-        .btn-loading .btn-spinner {
-            display: block;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/pages/main.css">
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
-
-    <nav id="main-nav" class="fixed top-0 w-full z-[100] glass-nav">
+    <!-- 네비게이션 -->
+    <nav id="main-nav" class="fixed top-0 w-full z-[100] transition-all duration-500 bg-white/80 backdrop-blur-md border-b border-transparent">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center" id="nav-container">
+            <!-- 로고 영역 -->
             <div onclick="window.location.href='/'"
-                class="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity">
-                <div class="w-8 h-8 bg-[#fff] rounded-lg flex items-center justify-center">
-                    <!-- <i class="fas fa-globe-asia text-white text-sm"></i> -->
-                    <img src="/images/favicon.ico" alt="Planet Logo" class="w-8 h-8">
+                class="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity z-[110]">
+                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden border border-slate-100 shadow-sm">
+                    <img src="assets/favicon.ico" alt="Planet Logo" class="w-8 h-8">
                 </div>
                 <span class="font-bold text-lg tracking-tight text-slate-800">PLANET</span>
             </div>
 
-            <div class="hidden md:flex gap-10 text-[13px] font-bold text-slate-500 items-center">
-                <a href="#vision" class="hover:text-[#FF9A00]">Vision</a>
-                <a href="#Features" class="hover:text-[#FF9A00]">Features</a>
-                <a href="#pricing" class="hover:text-[#FF9A00]">Membership</a>
-
-                <div class="w-[1px] h-3 bg-slate-300"></div>
-
-                <a href="javascript:void(0)" onclick="alert('채용 및 비즈니스 페이지는 현재 준비 중입니다. 곧 찾아뵙겠습니다!')"
-                    class="group flex items-center gap-1.5 text-slate-800 hover:text-[#FF9A00] transition-all cursor-pointer">
-                    <span>Business</span>
-                </a>
-                <a href="javascript:void(0)" onclick="alert('디자인 페이지는 현재 준비 중입니다. 곧 찾아뵙겠습니다!')"
-                    class="group flex items-center gap-1.5 text-slate-800 hover:text-[#FF9A00] transition-all cursor-pointer">
-                    <span>Design</span>
-                </a>
-                <a href="javascript:void(0)" onclick="alert('HICE Corp 페이지는 현재 준비 중입니다. 곧 찾아뵙겠습니다!')"
-                    class="group flex items-center gap-1.5 text-slate-800 hover:text-[#FF9A00] transition-all cursor-pointer">
-                    <span>HICE Corp</span>
-                    <i class="fas fa-external-link-alt text-[10px] text-slate-400 group-hover:text-[#FF9A00]"></i>
-                </a>
+            <!-- 데스크톱 메뉴 (Lg 이상 노출) -->
+            <div class="hidden lg:flex gap-10 text-[13px] font-bold text-slate-500 items-center">
+                <a href="#vision" class="hover:text-[#FF9A00] transition-colors text-slate-600">Vision</a>
+                <a href="#features" class="hover:text-[#FF9A00] transition-colors text-slate-600">Features</a>
+                <a href="#pricing" class="hover:text-[#FF9A00] transition-colors text-slate-600">Membership</a>
+                <div class="w-[1px] h-3 bg-slate-200"></div>
+                <!-- 서브 서비스 (데스크톱에서만 노출) -->
+                <div class="flex gap-6 items-center">
+                    <a href="javascript:void(0)" onclick="alert('준비 중입니다.')" class="flex items-center gap-1.5 text-slate-400 hover:text-[#FF9A00] transition-all">
+                        <i class="fa-solid fa-lock text-[10px]"></i>
+                        <span>Business</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="alert('준비 중입니다.')" class="flex items-center gap-1.5 text-slate-400 hover:text-[#FF9A00] transition-all text-xs">
+                        <i class="fa-solid fa-lock text-[10px]"></i>
+                        <span>Design</span>
+                    </a>
+                    <a href="javascript:void(0)" onclick="alert('준비 중입니다.')" class="flex items-center gap-1.5 text-slate-400 hover:text-[#FF9A00] transition-all text-xs">
+                        <i class="fa-solid fa-lock text-[10px]"></i>
+                        <span>Hice Corp</span>
+                    </a>
+                </div>
             </div>
 
-            <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
-                class="bg-slate-900 text-white px-5 py-2 rounded-lg text-[12px] font-bold hover:bg-[#FF9A00] transition-colors active:scale-95">
-                사전예약
-            </button>
+            <!-- 우측 액션 영역 -->
+            <div class="flex items-center gap-2 md:gap-4 z-[110]">
+                <!-- 사전예약 버튼 (모바일에서도 가독성 좋은 크기로 유지) -->
+                <button onclick="document.getElementById('pre-register').scrollIntoView({ behavior: 'smooth' })"
+                    class="bg-slate-900 text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full text-[11px] md:text-[13px] font-bold hover:bg-[#FF9A00] transition-all active:scale-95 shadow-lg shadow-slate-900/10">
+                    사전예약
+                </button>
+                
+                <!-- 햄버거 버튼 (Lg 미만 모든 환경 노출) -->
+                <button id="mobile-menu-btn" class="lg:hidden flex flex-col gap-1.5 p-2 outline-none group">
+                    <span class="w-5 h-0.5 bg-slate-800 transition-all duration-300 bar-1"></span>
+                    <span class="w-5 h-0.5 bg-slate-800 transition-all duration-300 bar-2"></span>
+                    <span class="w-5 h-0.5 bg-slate-800 transition-all duration-300 bar-3"></span>
+                </button>
+            </div>
         </div>
     </nav>
 
+    <!-- 모바일/태블릿 전용 풀스크린 사이드바 -->
+    <div id="mobile-sidebar" class="fixed inset-0 bg-white z-[90] transform translate-x-full transition-transform duration-500 lg:hidden flex flex-col pt-28 px-10 overflow-y-auto">
+        <div class="flex flex-col gap-8 mb-12">
+            <p class="text-[11px] text-[#FF9A00] font-bold uppercase tracking-[0.2em]">Menu</p>
+            <a href="#vision" class="mobile-nav-link text-3xl font-bold text-slate-800 hover:translate-x-2 transition-transform">Vision</a>
+            <a href="#features" class="mobile-nav-link text-3xl font-bold text-slate-800 hover:translate-x-2 transition-transform">Features</a>
+            <a href="#pricing" class="mobile-nav-link text-3xl font-bold text-slate-800 hover:translate-x-2 transition-transform">Membership</a>
+        </div>
+        
+        <div class="flex flex-col gap-6 pt-10 border-t border-slate-100">
+            <p class="text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em]">Partner Services</p>
+            <div class="grid grid-cols-1 gap-4">
+                <a href="javascript:void(0)" onclick="alert('준비 중입니다.')" class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl text-slate-600 font-semibold group">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-lock text-slate-300"></i> Business</span>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-300 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="javascript:void(0)" onclick="alert('준비 중입니다.')" class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl text-slate-600 font-semibold group">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-lock text-slate-300"></i> Design</span>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-300 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="javascript:void(0)" onclick="alert('준비 중입니다.')" class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl text-slate-600 font-semibold group">
+                    <span class="flex items-center gap-3"><i class="fa-solid fa-lock text-slate-300"></i> HICE Corp</span>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-300 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 히어로 섹션 -->
     <section class="hero-gradient min-h-screen pt-32 pb-20 px-6 flex flex-col items-center justify-center text-center">
         <div
             class="inline-block px-4 py-1.5 mb-6 border border-[#FF9A00]/30 rounded-full bg-[#FF9A00]/5 text-[#FF9A00] text-xs font-bold tracking-widest">
@@ -197,18 +109,34 @@
             당신의 절제된 시간을 우주의 생명력으로 치환하여, 삶의 균형을 되찾아주는 웰니스 플랫폼입니다.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })"
+            <button onclick="document.getElementById('pre-register').scrollIntoView({ behavior: 'smooth' })"
                 class="bg-[#FF9A00] text-white px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-xl shadow-orange-100 active:scale-95">
                 지금 사전예약 하기
             </button>
 
-            <button onclick="document.getElementById('Features').scrollIntoView({ behavior: 'smooth' })"
+            <button onclick="document.getElementById('features1').scrollIntoView({ behavior: 'smooth' })"
                 class="bg-white border border-slate-200 text-slate-600 px-10 py-4 rounded-full font-bold text-lg hover:bg-slate-50 transition-colors active:scale-95">
                 기능 더 알아보기
             </button>
         </div>
     </section>
 
+    <section id="banner" class="w-full">
+        <div class="w-full bg-[#FFFBF5] border-b border-[#FF9A00]/10 py-3 px-4">
+            <div class="max-w-5xl mx-auto flex items-center justify-center gap-2.5">
+                <i class="fa-solid fa-circle-exclamation text-[#FF9A00] text-sm md:text-base"></i>
+
+                <p class="text-[12px] md:text-[13px] text-gray-700 font-medium tracking-tight">
+                    현재 페이지는
+                    <span class="text-[#FF9A00] font-bold underline underline-offset-2 decoration-[#FF9A00]/30">
+                        데모 버전
+                    </span>이며, 실제 서비스 출시 시 디자인 및 기능이 다를 수 있습니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 비전 섹션 -->
     <section id="vision" class="py-32 px-6 max-w-7xl mx-auto">
         <div class="grid md:grid-cols-2 gap-20 items-center">
             <div class="scroll-reveal">
@@ -272,7 +200,8 @@
         </div>
     </section>
 
-    <section class="py-32 bg-[#fff7ed]/30 overflow-hidden" id="Features">
+    <!-- 기능 섹션 -->
+    <section class="py-32 bg-[#fff7ed]/30 overflow-hidden" id="features">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-16 items-center">
 
@@ -374,7 +303,8 @@
         </div>
     </section>
 
-    <section class="py-32 bg-white overflow-hidden">
+    <!-- 기능 섹션 2 -->
+    <section class="py-32 bg-white overflow-hidden" id="features1">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-16 items-center">
                 <div class="scroll-reveal">
@@ -469,7 +399,8 @@
         </div>
     </section>
 
-    <section class="py-20 bg-[#1A1C1E] text-white overflow-hidden border-t border-white/5">
+    <!-- 기능 섹션 3 -->
+    <section class="py-20 bg-[#1A1C1E] text-white overflow-hidden border-t border-white/5" id="features3">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-3 gap-6">
 
@@ -519,7 +450,8 @@
         </div>
     </section>
 
-    <section class="py-32 bg-[#F8FAFC] overflow-hidden">
+    <!-- 기능 섹션 4 -->
+    <section class="py-32 bg-[#F8FAFC] overflow-hidden" id="features4">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-16 items-center">
 
@@ -607,7 +539,8 @@
         </div>
     </section>
 
-    <section id="challenge" class="py-32 bg-[#F8FAFC] overflow-hidden border-t border-slate-100">
+    <!-- 기능 섹션 5 -->
+    <section id="features5" class="py-32 bg-[#F8FAFC] overflow-hidden border-t border-slate-100">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-16 items-center">
 
@@ -713,7 +646,8 @@
         </div>
     </section>
 
-    <section class="py-32 bg-slate-50 overflow-hidden">
+    <!-- 기능 섹션 6 -->
+    <section class="py-32 bg-slate-50 overflow-hidden" id="features6">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-16 items-center">
 
@@ -798,7 +732,8 @@
         </div>
     </section>
 
-    <section class="py-32 bg-white overflow-hidden">
+    <!-- 기능 섹션 7 -->
+    <section class="py-32 bg-white overflow-hidden" id="features7">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-16 items-center">
 
@@ -887,6 +822,7 @@
         </div>
     </section>
 
+    <!-- 가격 섹션 -->
     <section id="pricing" class="py-32 bg-slate-50 overflow-hidden">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center max-w-3xl mx-auto mb-20">
@@ -1030,7 +966,8 @@
         </div>
     </section>
 
-    <section id="contact" class="py-32 px-6">
+    <!-- 사전예약 섹션 -->
+    <section id="pre-register" class="py-32 px-6">
         <div
             class="max-w-6xl mx-auto bg-gradient-to-br from-[#FF9A00] to-[#FFC272] rounded-[48px] p-8 md:p-20 text-center text-white shadow-2xl shadow-orange-200 relative overflow-hidden">
 
@@ -1061,7 +998,7 @@
                     <div class="relative group">
                         <div
                             class="absolute -top-4 left-6 bg-black text-white text-xs font-black px-3 py-1 rounded-full z-20 shadow-xl">
-                            추첨 50명</div>
+                            선착순 50명 + 추첨 50명</div>
                         <div
                             class="bg-white/20 backdrop-blur-xl p-8 rounded-[40px] border-2 border-white shadow-xl h-full transition-transform hover:-translate-y-2">
                             <div class="flex items-center gap-4 mb-6">
@@ -1095,7 +1032,7 @@
                                 <span class="text-2xl">📈</span>
                                 <div>
                                     <p class="text-sm font-black uppercase tracking-wider opacity-70">Core Benefit</p>
-                                    <p class="font-bold">앱 수익 지분 1% 증정</p>
+                                    <p class="font-bold">앱 지분 1% 증정</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-3 bg-black/5 p-3 rounded-2xl border border-white/10">
@@ -1119,12 +1056,11 @@
                             class="bg-white p-2 rounded-[24px] md:rounded-full flex flex-col md:flex-row gap-2 shadow-2xl shadow-orange-900/20 mb-4">
                             <input type="email" id="userEmail" placeholder="이메일 주소를 입력하세요"
                                 class="bg-transparent border-none outline-none px-6 py-4 flex-grow text-slate-800 placeholder:text-slate-400 font-medium">
-                            <button id="submitBtn" onclick="handleRegistration()"
+                            <button id="submitBtn"
                                 class="bg-[#1e293b] text-white px-8 py-4 rounded-[18px] md:rounded-full font-black text-lg hover:bg-black transition-all active:scale-95 whitespace-nowrap flex items-center justify-center gap-2 min-w-[180px]">
                                 <span id="btnText">지금 사전 예약하기</span>
                             </button>
                         </div>
-
                         <div class="flex items-center justify-center gap-2 mb-6 text-sm font-medium text-black/70">
                             <input type="checkbox" id="privacyAgree" class="w-4 h-4 accent-black cursor-pointer">
                             <label for="privacyAgree" class="cursor-pointer">
@@ -1132,7 +1068,9 @@
                                     수집</a>에 동의하십니까?
                             </label>
                         </div>
-
+                        <div id="errorMessageWrap" class="text-center mt-2">
+                            <span id="errorMessage" class="text-red-600 mt-1 ml-2 hidden text-16px"></span>
+                        </div>
                         <div class="mt-10 py-6 border-t border-black/5 max-w-lg mx-auto">
                         </div>
                     </div>
@@ -1154,7 +1092,7 @@
                             </li>
                             <li class="flex gap-2">
                                 <span class="shrink-0">•</span>
-                                <span class="text-black/60">실물 Founders Kit의 구성품은 <strong>변동</strong>될 
+                                <span class="text-black/60">실물 Founders Kit의 구성품은 <strong>변동</strong>될
                                     수 있으며, 배송은 출시 이후 <strong>6개월</strong> 이후 <strong>순차적</strong>으로 진행될 예정입니다.</span>
                             </li>
                             <li class="flex gap-2 italic opacity-80">
@@ -1168,12 +1106,13 @@
         </div>
     </section>
 
-    <footer class="py-20 border-t border-slate-100 px-6 bg-slate-50/50">
+    <!-- 푸터 섹션 -->
+    <footer class="py-20 border-t border-slate-100 px-6 bg-slate-50/50" id="footer">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
             <div>
                 <div class="flex items-center gap-2 mb-6">
                     <!-- <div class="w-8 h-8 bg-gradient-to-r from-[#FF9A00] to-[#FFC272] rounded-full shadow-sm"></div> -->
-                    <img src="/images/favicon.ico" alt="Planet Logo" class="w-8 h-8">
+                    <img src="/assets/favicon.ico" alt="Planet Logo" class="w-8 h-8">
                     <span class="font-bold text-xl tracking-tighter text-slate-800">PLANET</span>
                 </div>
                 <p class="text-slate-500 text-sm max-w-xs leading-relaxed">당신의 리듬으로 돌아가는 여정,<br>Planet이 함께합니다.</p>
@@ -1243,120 +1182,57 @@
             <p>© 2026 Hice Tech. All rights reserved.</p>
             <p class="font-medium">Planet — Get back to your rhythm</p>
         </div>
+        <div class="text-center mt-2 max-w-2xl mx-auto">
+            <div
+                class="flex items-center justify-center gap-x-2 text-[8px] md:text-[9px] text-gray-400 uppercase tracking-tighter">
+
+                <p>
+                    Icons by
+                    <a href="https://fontawesome.com" target="_blank"
+                        class="hover:text-gray-600 underline decoration-gray-200 underline-offset-1 transition-colors font-24px">FontAwesome</a>
+                    (CC BY 4.0)
+                </p>
+
+                <span class="text-gray-200">|</span>
+
+                <p>
+                    Typography by
+                    <a href="https://orioncactus.github.io/pretendard/" target="_blank"
+                        class="hover:text-gray-600 underline decoration-gray-200 underline-offset-1 transition-colors font-24px">Pretendard</a>
+                    (OFL 1.1)
+                </p>
+
+            </div>
+        </div>
     </footer>
 
-    <script>
-        // 1. 스크롤 애니메이션 (Scroll Reveal)
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, observerOptions);
-        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    <script src="/scripts/pages/main.js"></script>
+</body>
 
-        // 2. 네비게이션 바 상태 관리
-        const nav = document.getElementById('main-nav');
-        let scrollTimeout;
+</html>     <div
+                class="flex items-center justify-center gap-x-2 text-[8px] md:text-[9px] text-gray-400 uppercase tracking-tighter">
 
-        window.addEventListener('scroll', () => {
-            const isTop = window.scrollY < 50;
+                <p>
+                    Icons by
+                    <a href="https://fontawesome.com" target="_blank"
+                        class="hover:text-gray-600 underline decoration-gray-200 underline-offset-1 transition-colors font-24px">FontAwesome</a>
+                    (CC BY 4.0)
+                </p>
 
-            if (!isTop) {
-                nav.classList.add('nav-scrolled');
-                nav.classList.remove('nav-hidden');
+                <span class="text-gray-200">|</span>
 
-                // 스크롤 멈추면 1.5초 후 숨김
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    if (!nav.matches(':hover')) { // 마우스가 위에 없을 때만 숨김
-                        nav.classList.add('nav-hidden');
-                    }
-                }, 1500);
-            } else {
-                nav.classList.remove('nav-scrolled', 'nav-hidden');
-            }
-        });
+                <p>
+                    Typography by
+                    <a href="https://orioncactus.github.io/pretendard/" target="_blank"
+                        class="hover:text-gray-600 underline decoration-gray-200 underline-offset-1 transition-colors font-24px">Pretendard</a>
+                    (OFL 1.1)
+                </p>
 
-        // 3. 사전예약 등록 핸들러 (통합 및 최적화)
-        async function handleRegistration() {
-            const emailInput = document.getElementById('userEmail');
-            const checkbox = document.getElementById('privacyAgree');
-            const btn = document.getElementById('submitBtn');
-            const btnText = document.getElementById('btnText');
+            </div>
+        </div>
+    </footer>
 
-            const email = (emailInput.value || '').trim();
-
-            // [검증 1] 개인정보 동의 여부
-            if (!checkbox.checked) {
-                alert('개인정보 이용 및 수집에 동의해주세요.');
-                checkbox.focus();
-                return;
-            }
-
-            // [검증 2] 이메일 형식
-            if (!email || !email.includes('@')) {
-                alert('올바른 이메일 주소를 입력해주세요.');
-                emailInput.focus();
-                return;
-            }
-
-            // [상태 변경] 로딩 시작
-            btn.disabled = true;
-            btn.classList.add('opacity-80', 'cursor-not-allowed');
-
-            // 로딩 스피너 및 텍스트 변경
-            btnText.innerHTML = `
-            <svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            사용자 추가중..
-        `;
-
-            try {
-                const payload = {
-                    email,
-                    source: "founders_register"
-                };
-
-                console.group("🚀 API 전송 데이터 준비 완료");
-                console.log("Object:", payload);
-                console.groupEnd();
-
-                // ✅ fetch 결과를 response로 받는다
-                const response = await fetch('/api/pre-register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                // ✅ 여기서 response 사용 가능
-                if (!response.ok) {
-                    throw new Error('전송 실패');
-                }
-
-                console.log('✅ Registration Successful');
-
-                btnText.innerText = "저장 완료";
-
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
-                    btnText.innerText = "지금 사전 예약하기";
-                    emailInput.value = "";
-                    checkbox.checked = false;
-                }, 1500);
-
-            } catch (error) {
-                console.error('Registration Error:', error);
-                alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-                btn.disabled = false;
-                btn.classList.remove('opacity-80', 'cursor-not-allowed');
-                btnText.innerText = "지금 사전 예약하기";
-            }
-        }
-    </script>
+    <script src="/scripts/pages/main.js"></script>
 </body>
 
 </html>

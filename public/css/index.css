@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* 공통 변수 설정 */
+:root {
+    --brand-orange: #FF9A00;
+    --text-dark: #1e293b;
+    --bg-light: #f8fafc;
+    --bg-orange-tint: #fff7ed;
+    --glass-white: rgba(255, 255, 255, 0.8);
+    --glass-invisible: rgba(255, 255, 255, 0.1);
+    --border-light: rgba(0, 0, 0, 0.05);
+    --transition-standard: all 0.3s ease;
+}
+
+/* Font 설정 */
+* {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+/* 기본 바디 스타일 */
+body {
+    background-color: var(--bg-white, #fff);
+    color: var(--text-dark);
+    scroll-behavior: smooth;
+    line-height: 1.5; 
+}

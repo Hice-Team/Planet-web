@@ -1,0 +1,45 @@
+.policy-section {
+    margin-bottom: 3rem;
+}
+
+.policy-title {
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 0.5rem;
+}
+
+.policy-content {
+    color: #475569;
+    line-height: 1.8;
+    font-size: 0.95rem;
+}
+
+.highlight {
+    color: #FF9A00;
+    font-weight: 600;
+}
+
+.table-style {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+.table-style th,
+.table-style td {
+    border: 1px solid #e2e8f0;
+    padding: 12px;
+    text-align: left;
+}
+
+.table-style th {
+    background-color: #f8fafc;
+    color: #334155;
+}
