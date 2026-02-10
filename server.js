@@ -150,7 +150,7 @@ app.use((req, res) => {
 });
 
 // 서버 시작
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   emailCache.clear();
   console.log("♻️ Email cache cleared on server start.");
